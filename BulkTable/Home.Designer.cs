@@ -34,6 +34,10 @@
             lblSolteArquivo = new Label();
             pictureBox1 = new PictureBox();
             btnAnalisarArquivos = new Button();
+            chkColunasArquivo = new CheckedListBox();
+            txtFilePath = new TextBox();
+            txtNomeTabela = new TextBox();
+            btnGerarTabelaBD = new Button();
             pnlAreaArquivo.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
@@ -100,7 +104,7 @@
             // 
             // btnAnalisarArquivos
             // 
-            btnAnalisarArquivos.Location = new Point(12, 375);
+            btnAnalisarArquivos.Location = new Point(12, 530);
             btnAnalisarArquivos.Margin = new Padding(3, 4, 3, 4);
             btnAnalisarArquivos.Name = "btnAnalisarArquivos";
             btnAnalisarArquivos.Size = new Size(142, 52);
@@ -109,11 +113,49 @@
             btnAnalisarArquivos.UseVisualStyleBackColor = true;
             btnAnalisarArquivos.Click += btnAnalisarArquivos_Click;
             // 
+            // chkColunasArquivo
+            // 
+            chkColunasArquivo.FormattingEnabled = true;
+            chkColunasArquivo.Location = new Point(849, 13);
+            chkColunasArquivo.Name = "chkColunasArquivo";
+            chkColunasArquivo.Size = new Size(290, 290);
+            chkColunasArquivo.TabIndex = 5;
+            // 
+            // txtFilePath
+            // 
+            txtFilePath.Enabled = false;
+            txtFilePath.Location = new Point(12, 317);
+            txtFilePath.Name = "txtFilePath";
+            txtFilePath.Size = new Size(546, 27);
+            txtFilePath.TabIndex = 6;
+            // 
+            // txtNomeTabela
+            // 
+            txtNomeTabela.Location = new Point(849, 309);
+            txtNomeTabela.Name = "txtNomeTabela";
+            txtNomeTabela.Size = new Size(290, 27);
+            txtNomeTabela.TabIndex = 7;
+            // 
+            // btnGerarTabelaBD
+            // 
+            btnGerarTabelaBD.Location = new Point(870, 382);
+            btnGerarTabelaBD.Margin = new Padding(3, 4, 3, 4);
+            btnGerarTabelaBD.Name = "btnGerarTabelaBD";
+            btnGerarTabelaBD.Size = new Size(142, 52);
+            btnGerarTabelaBD.TabIndex = 8;
+            btnGerarTabelaBD.Text = "Gerar Tabela";
+            btnGerarTabelaBD.UseVisualStyleBackColor = true;
+            btnGerarTabelaBD.Click += btnGerarTabelaBD_Click;
+            // 
             // FrmPrincipal
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(570, 519);
+            ClientSize = new Size(1286, 709);
+            Controls.Add(btnGerarTabelaBD);
+            Controls.Add(txtNomeTabela);
+            Controls.Add(txtFilePath);
+            Controls.Add(chkColunasArquivo);
             Controls.Add(btnAnalisarArquivos);
             Controls.Add(pnlAreaArquivo);
             Margin = new Padding(3, 4, 3, 4);
@@ -123,6 +165,7 @@
             pnlAreaArquivo.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -133,5 +176,9 @@
         private Label lblOu;
         private Button btnBuscarArquivo;
         private Button btnAnalisarArquivos;
+        private CheckedListBox chkColunasArquivo;
+        private TextBox txtFilePath;
+        private TextBox txtNomeTabela;
+        private Button btnGerarTabelaBD;
     }
 }

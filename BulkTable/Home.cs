@@ -6,6 +6,8 @@ using System.Globalization;
 using CsvHelper;
 using OfficeOpenXml;
 using ClosedXML.Excel;
+using System.Drawing.Text;
+using Microsoft.Data.SqlClient;
 
 namespace BulkTable
 {
@@ -13,6 +15,8 @@ namespace BulkTable
     {
         private string _filePath { get; set; }
         private DataTable _dataTable { get; set; }
+
+        private string _connectionString = "Server=localhost;Database=SeuBancoDeDados;Integrated Security=True;";
         public FrmPrincipal()
         {
             InitializeComponent();
@@ -37,7 +41,7 @@ namespace BulkTable
             string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
             if (files.Length > 0)
             {
-                _filePath = files[0];
+                _filePath = txtFilePath.Text = files[0];
             }
         }
 
@@ -62,7 +66,7 @@ namespace BulkTable
 
             if (result == DialogResult.OK)
             {
-                _filePath = openFileDialog.FileName;
+                _filePath = txtFilePath.Text = openFileDialog.FileName;
             }
         }
         private DataTable CarregarDadosDoArquivo(string filePath)
@@ -159,10 +163,112 @@ namespace BulkTable
             {
                 _dataTable = CarregarDadosDoArquivo(_filePath);
                 MessageBox.Show("Arquivo carregado com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                ExibirColunas(_dataTable);
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Ocorreu um erro ao carregar o arquivo: {ex.Message}", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void ExibirColunas(DataTable dataTable)
+        {
+            chkColunasArquivo.Items.Clear();
+
+            foreach (DataColumn column in dataTable.Columns)
+            {
+                chkColunasArquivo.Items.Add(column.ColumnName, true);
+            }
+        }
+
+        private void btnGerarTabelaBD_Click(object sender, EventArgs e)
+        {
+            string nomeBD = DefinirNomeTabela();
+
+            CriarTabela(nomeBD);
+
+        }
+
+        private void CriarTabela(string nomeBD)
+        {
+            // Verifica se há colunas selecionadas
+            if (chkColunasArquivo.CheckedItems.Count == 0)
+            {
+                MessageBox.Show("Nenhuma coluna foi selecionada.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // Construir a parte da declaração SQL com as colunas
+            var colunasSql = new System.Text.StringBuilder();
+
+            foreach (var item in chkColunasArquivo.CheckedItems)
+            {
+                // Pega o nome da coluna selecionada
+                string nomeColuna = item.ToString();
+
+                // Adiciona a coluna com um tipo de dado genérico
+                colunasSql.Append($"[{nomeColuna}] NVARCHAR(255), ");
+            }
+
+            // Remove a última vírgula e o espaço extra
+            colunasSql.Length = colunasSql.Length - 2;
+
+            // Monta o comando SQL completo
+            string sql = $"CREATE TABLE [dbo].[{nomeBD}] ({colunasSql.ToString()})";
+
+            try
+            {
+                using (var connection = new SqlConnection(_connectionString))
+                {
+                    connection.Open();
+
+                    using (var command = new SqlCommand(sql, connection))
+                    {
+                        command.ExecuteNonQuery(); // Executa o comando
+                    }
+                }
+                MessageBox.Show($"Tabela '{nomeBD}' criada com sucesso!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Erro ao criar a tabela: {ex.Message}", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private string DefinirNomeTabela()
+        {
+            if (string.IsNullOrEmpty(txtNomeTabela.Text))
+            {
+                string bdName = "TEMP_" + DateTime.Now.ToString("yyyyMMdd_HHmmss");
+                txtNomeTabela.Text = bdName;
+                return bdName;
+            }
+            else
+            {
+                if (txtNomeTabela.Text.Length > 30)
+                {
+                    MessageBox.Show("O nome da tabela não pode exceder 30 caracteres.", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return string.Empty;
+                }
+                else if (!System.Text.RegularExpressions.Regex.IsMatch(txtNomeTabela.Text, @"^[a-zA-Z0-9_]+$"))
+                {
+                    MessageBox.Show("O nome da tabela só pode conter letras, números e underscores.", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return string.Empty;
+                }
+                else if (char.IsDigit(txtNomeTabela.Text[0]))
+                {
+                    MessageBox.Show("O nome da tabela não pode começar com um número.", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return string.Empty;
+                }
+                if (txtNomeTabela.Text.StartsWith("GRC") || txtNomeTabela.Text.StartsWith("TMP") || txtNomeTabela.Text.StartsWith("COB") || txtNomeTabela.Text.StartsWith("GIS"))
+                {
+                    MessageBox.Show("O nome da tabela não pode começar com esse prefixo.", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return string.Empty;
+                }
+                else
+                {
+                    return txtNomeTabela.Text;
+                }
             }
         }
     }
