@@ -33,6 +33,7 @@
             lblOu = new Label();
             lblSolteArquivo = new Label();
             pictureBox1 = new PictureBox();
+            btnAnalisarArquivos = new Button();
             pnlAreaArquivo.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
@@ -45,9 +46,10 @@
             pnlAreaArquivo.Controls.Add(lblOu);
             pnlAreaArquivo.Controls.Add(lblSolteArquivo);
             pnlAreaArquivo.Controls.Add(pictureBox1);
-            pnlAreaArquivo.Location = new Point(66, 22);
+            pnlAreaArquivo.Location = new Point(12, 13);
+            pnlAreaArquivo.Margin = new Padding(3, 4, 3, 4);
             pnlAreaArquivo.Name = "pnlAreaArquivo";
-            pnlAreaArquivo.Size = new Size(251, 223);
+            pnlAreaArquivo.Size = new Size(546, 297);
             pnlAreaArquivo.TabIndex = 1;
             pnlAreaArquivo.DragDrop += pnlAreaArquivo_DragDrop;
             pnlAreaArquivo.DragEnter += pnlAreaArquivo_DragEnter;
@@ -55,9 +57,10 @@
             // 
             // btnBuscarArquivo
             // 
-            btnBuscarArquivo.Location = new Point(60, 172);
+            btnBuscarArquivo.Location = new Point(189, 229);
+            btnBuscarArquivo.Margin = new Padding(3, 4, 3, 4);
             btnBuscarArquivo.Name = "btnBuscarArquivo";
-            btnBuscarArquivo.Size = new Size(124, 39);
+            btnBuscarArquivo.Size = new Size(142, 52);
             btnBuscarArquivo.TabIndex = 2;
             btnBuscarArquivo.Text = "Buscar Arquivo";
             btnBuscarArquivo.UseVisualStyleBackColor = true;
@@ -67,9 +70,9 @@
             // 
             lblOu.AutoSize = true;
             lblOu.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lblOu.Location = new Point(111, 138);
+            lblOu.Location = new Point(247, 184);
             lblOu.Name = "lblOu";
-            lblOu.Size = new Size(23, 17);
+            lblOu.Size = new Size(30, 23);
             lblOu.TabIndex = 3;
             lblOu.Text = "ou";
             // 
@@ -77,9 +80,9 @@
             // 
             lblSolteArquivo.AutoSize = true;
             lblSolteArquivo.Font = new Font("Segoe UI", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lblSolteArquivo.Location = new Point(45, 89);
+            lblSolteArquivo.Location = new Point(171, 119);
             lblSolteArquivo.Name = "lblSolteArquivo";
-            lblSolteArquivo.Size = new Size(155, 30);
+            lblSolteArquivo.Size = new Size(200, 37);
             lblSolteArquivo.TabIndex = 2;
             lblSolteArquivo.Text = "Solte o Arquivo";
             // 
@@ -87,19 +90,33 @@
             // 
             pictureBox1.Image = Properties.Resources.clound_upload;
             pictureBox1.InitialImage = Properties.Resources.clound_upload;
-            pictureBox1.Location = new Point(72, 12);
+            pictureBox1.Location = new Point(202, 16);
+            pictureBox1.Margin = new Padding(3, 4, 3, 4);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(100, 74);
+            pictureBox1.Size = new Size(114, 99);
             pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox1.TabIndex = 2;
             pictureBox1.TabStop = false;
             // 
+            // btnAnalisarArquivos
+            // 
+            btnAnalisarArquivos.Location = new Point(12, 375);
+            btnAnalisarArquivos.Margin = new Padding(3, 4, 3, 4);
+            btnAnalisarArquivos.Name = "btnAnalisarArquivos";
+            btnAnalisarArquivos.Size = new Size(142, 52);
+            btnAnalisarArquivos.TabIndex = 4;
+            btnAnalisarArquivos.Text = "Analisar Arquivos";
+            btnAnalisarArquivos.UseVisualStyleBackColor = true;
+            btnAnalisarArquivos.Click += btnAnalisarArquivos_Click;
+            // 
             // FrmPrincipal
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(397, 300);
+            ClientSize = new Size(570, 519);
+            Controls.Add(btnAnalisarArquivos);
             Controls.Add(pnlAreaArquivo);
+            Margin = new Padding(3, 4, 3, 4);
             Name = "FrmPrincipal";
             Text = "Home";
             pnlAreaArquivo.ResumeLayout(false);
@@ -115,5 +132,6 @@
         private Label lblSolteArquivo;
         private Label lblOu;
         private Button btnBuscarArquivo;
+        private Button btnAnalisarArquivos;
     }
 }
